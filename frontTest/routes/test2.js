@@ -24,7 +24,7 @@ test.describe('client', function() {
 
     test.describe('set', function() {
         test.it('Should update client data', function(done) {
-            driver.get('http://localhost:8000/').then(function() {
+            driver.get('http://localhost:9000/').then(function() {
                 async.waterfall([
                     // move to client detail
                     function(done) {

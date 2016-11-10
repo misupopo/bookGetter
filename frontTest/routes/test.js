@@ -14,8 +14,7 @@ const test = require('selenium-webdriver/testing'),
     util = require('../lib/util.js'),
     argv = require('yargs').argv,
     mail = config.id,
-    pass = config.password,
-    BufferedReader = require('bufferedreader');
+    pass = config.password;
 
 let getNumber = 0;
 
