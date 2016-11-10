@@ -1,0 +1,6 @@
+- name: Remove default root directory
+  file: path=/var/lib/node state=absent
+
+- name: Create symbolic link
+  file: src=/bookGetter dest=/var/lib/node state=link
+

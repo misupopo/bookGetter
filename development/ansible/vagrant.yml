@@ -1,0 +1,6 @@
+- hosts: manager
+  become: yes
+  roles:
+    - common
+    - node
+    - vagrant

@@ -1,0 +1,16 @@
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Generate locale
+  locale_gen: name=en_US.UTF-8 state=present
+
+- name: Update locale
+  shell: |
+    dpkg-reconfigure --frontend noninteractive locales
+    update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
+
+- name: Set timezone
+  shell: |
+    echo Asia/Tokyo > /etc/timezone
+    dpkg-reconfigure --frontend noninteractive tzdata
+
