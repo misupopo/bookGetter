@@ -1,0 +1,29 @@
+{
+    "name": "bookgetter",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "./node_modules/.bin/mocha --opts ./frontTest/mocha.opts ./frontTest/routes"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/misupopo/bookGetter.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/misupopo/bookGetter/issues"
+    },
+    "homepage": "https://github.com/misupopo/bookGetter#readme",
+    "dependencies": {
+        "chromedriver": "^2.25.1",
+        "expect.js": "^0.3.1",
+        "fs": "0.0.1-security",
+        "lodash": "^4.16.6",
+        "neo-async": "^2.0.1",
+        "selenium-webdriver": "^3.0.1",
+        "testem": "^1.13.0",
+        "yargs": "^6.3.0"
+    }
+}
