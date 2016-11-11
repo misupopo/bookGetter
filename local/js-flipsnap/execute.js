@@ -1,5 +1,7 @@
-function execAction() {
-    function promiseAction () {
+function execAction(index) {
+    const loopCount = index | 1;
+
+    function promiseAction (loopCount) {
         let target = $('.flipsnap'),
             fireMouseEvent,
             promiseActionNest,
@@ -62,12 +64,10 @@ function execAction() {
             });
         };
 
-        let endCount = childTarget;
-
-        promiseActionNest(3);
+        return promiseActionNest(loopCount);
     }
 
-    promiseAction();
+    return promiseAction(loopCount);
 }
 
 function getText(value) {

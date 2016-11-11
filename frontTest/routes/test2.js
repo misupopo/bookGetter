@@ -63,17 +63,39 @@ test.describe('client', function() {
 
                             driver.executeScript("var script = window.document.createElement('script');" +
                             "script.src = 'execute.js';" +
-                            "document.getElementsByTagName('head')[0].appendChild(script);").then(function () {
-                                driver.executeScript("execAction();");
-                                done();
+                            "document.getElementsByTagName('head')[0].appendChild(script);" +
+                            "return $('.flipsnap').children().length").then(function (length) {
+                                const maxPageNumber = length;
+
+                                function setTimeoutAsync(delay, loopCount) {
+                                    let _loopCount = loopCount;
+
+                                    return new Promise(function(resolve, reject) {
+                                        setTimeout(function() {
+                                            driver.executeScript("return execAction();").then(function() {
+                                                if(_loopCount <= 0) {
+                                                    done();
+                                                    return;
+                                                } else {
+                                                    util.driverCaptureAction('clientUpdate' + ((maxPageNumber - _loopCount) + 1), driver, 'page/target');
+                                                }
+
+                                                setTimeoutAsync(3000, (_loopCount - 1));
+
+                                                resolve();
+                                            });
+                                        }, delay);
+                                    });
+                                }
+
+                                setTimeoutAsync(3000, length);
                             });
                         });
+                    },
+                    function () {
+                        done();
                     }
                 ]);
-
-                util.driverCaptureAction('clientUpdate', driver, 'client/update');
-
-                done();
             });
         });
     });

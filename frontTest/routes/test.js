@@ -97,28 +97,42 @@ test.describe('action', function() {
 
                             return driver.executeScript("document.getElementsByClassName('view-protection')[0].style.display = 'none';");
                         }).then(function() {
-
-                            // driver.executeScript("var evt = document.createEvent('MouseEvents');" +
-                            //     "evt.initMouseEvent('mouseup', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);" +
-                            //     "document.getElementsByClassName('flipsnap')[0].dispatchEvent(evt);");
-
                             done();
                         });
-
-                        // action.dragAndDrop($(By.css(".flipsnap .view-sheet:nth-child(2)")), $(By.css("#test .item:nth-child(3)"))).perform();
-
-                        // util.driverCaptureAction('01', driver, 'capture');
                     });
                 });
             });
         });
 
         test.it('Should download into proper folder', function(done) {
+            driver.executeScript("var script = window.document.createElement('script');" +
+                "script.src = 'execute.js';" +
+                "document.getElementsByTagName('head')[0].appendChild(script);" +
+                "return $('.flipsnap').children().length").then(function (length) {
+                const maxPageNumber = length;
 
+                function setTimeoutAsync(delay, loopCount) {
+                    let _loopCount = loopCount;
 
+                    return new Promise(function(resolve, reject) {
+                        setTimeout(function() {
+                            driver.executeScript("return execAction();").then(function() {
+                                if(_loopCount <= 0) {
+                                    done();
+                                    return;
+                                } else {
+                                    util.driverCaptureAction('clientUpdate' + ((maxPageNumber - _loopCount) + 1), driver, 'page/target');
+                                }
 
-            driver.executeScript(getText(execAction.toString())).then(function () {
-                done();
+                                setTimeoutAsync(3000, (_loopCount - 1));
+
+                                resolve();
+                            });
+                        }, delay);
+                    });
+                }
+
+                setTimeoutAsync(3000, length);
             });
         });
     });
