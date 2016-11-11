@@ -5,8 +5,7 @@ function execAction(index) {
         let target = $('.flipsnap'),
             fireMouseEvent,
             promiseActionNest,
-            elemDrag = target[0],
-            childTarget = test.children.length;
+            elemDrag = target[0];
 
         fireMouseEvent = function (type, elem, clientX, clientY, screenX, screenY) {
             let evt = document.createEvent('MouseEvents');
@@ -68,23 +67,6 @@ function execAction(index) {
     }
 
     return promiseAction(loopCount);
-}
-
-function getText(value) {
-    let text = value,
-        arrayData = [],
-        scriptData = '',
-        returnValue = '';
-
-    arrayData = text.split(/\r\n|\r|\n/);
-
-    for (let i = 0; i < arrayData.length; i++) {
-        scriptData = (scriptData + arrayData[i]);
-    }
-
-    returnValue = scriptData.replace(/\s+/g, ' ');
-
-    return returnValue;
 }
 
 

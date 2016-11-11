@@ -49,7 +49,19 @@ test.describe('action', function() {
                 //     console.log(data);
                 // });
 
-                util.driverCaptureAction('01', driver, 'action');
+                driver.wait(function() {
+                    return false;
+                }, 5000).catch(function () {
+                    done();
+                });
+            });
+        });
+
+        let goToAccessPageHref = '';
+
+        test.it('Should topPage click to library', function(done) {
+            driver.executeScript("$('#click_book')[0].click()").then(function (data) {
+                goToAccessPageHref = data;
 
                 driver.wait(function() {
                     return false;
@@ -59,46 +71,37 @@ test.describe('action', function() {
             });
         });
 
-        test.it('Should topPage capture', function(done) {
-            driver.get(config.url + '/top/').then(function() {
-                util.driverCaptureAction('02', driver, 'action');
-                done();
+        test.it('Should access bookPage session', function(done) {
+            driver.wait(function() {
+                return false;
+            }, 5000).catch(function () {
+                util.driverCaptureAction('03', driver, 'action');
             });
+
+            driver.executeScript("return document.getElementsByClassName('m-boxListBookProductBlock__item')[0].querySelectorAll('a')[0].href").then(function (data) {
+                goToAccessPageHref = data;
+            });
+
+            done();
         });
 
-        test.it('Should access bookPage session', function(done) {
-            let goToAccessPageHref = '';
+        test.it('Should view display off', function(done) {
+            console.log('goToAccessPageHref:' + goToAccessPageHref);
 
-            driver.get(config.url + '/library/').then(function() {
-
+            driver.get(goToAccessPageHref).then(function() {
                 driver.wait(function() {
                     return false;
                 }, 5000).catch(function () {
-                    util.driverCaptureAction('03', driver, 'action');
-                });
+                    // document.getElementsByClassName('flipsnap')[0].getElementsByClassName('view-sheet').length
+                    let elementLength = 0;
 
-                driver.executeScript("return document.getElementsByClassName('m-boxListBookProductBlock__item')[0].querySelectorAll('a')[0].href").then(function (data) {
-                    goToAccessPageHref = data;
-                });
-            }).then(function () {
-                console.log('goToAccessPageHref:' + goToAccessPageHref);
-
-                driver.get(goToAccessPageHref).then(function() {
-                    driver.wait(function() {
-                        return false;
-                    }, 5000).catch(function () {
-                        // document.getElementsByClassName('flipsnap')[0].getElementsByClassName('view-sheet').length
-                        let elementLength = 0;
-
-                        driver.executeScript("return document.getElementsByClassName('flipsnap')[0].getElementsByClassName('view-sheet').length").then(function (data) {
-                            elementLength = (data);
-                        }).then(function () {
-                            $(By.xpath("//span[@class='btn btn-close-dialog']")).click();
-
-                            return driver.executeScript("document.getElementsByClassName('view-protection')[0].style.display = 'none';");
-                        }).then(function() {
-                            done();
-                        });
+                    driver.executeScript("return document.getElementsByClassName('flipsnap')[0].getElementsByClassName('view-sheet').length").then(function (data) {
+                        elementLength = (data);
+                    }).then(function () {
+                        driver.executeScript("$('.btn-close-dialog')[0].click();");
+                        driver.executeScript("document.getElementsByClassName('view-protection')[0].style.display = 'none';");
+                    }).then(function() {
+                        done();
                     });
                 });
             });
@@ -106,7 +109,7 @@ test.describe('action', function() {
 
         test.it('Should download into proper folder', function(done) {
             driver.executeScript("var script = window.document.createElement('script');" +
-                "script.src = 'execute.js';" +
+                "script.src = 'http://localhost:9000/execute.js';" +
                 "document.getElementsByTagName('head')[0].appendChild(script);" +
                 "return $('.flipsnap').children().length").then(function (length) {
                 const maxPageNumber = length;
