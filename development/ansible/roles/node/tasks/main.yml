@@ -1,16 +1,19 @@
-- name: Install Git
-  apt: pkg={{item}} state=latest
-  with_items:
-    - git
 
-- name: Get nave.sh
-  git: repo=https://github.com/isaacs/nave.git dest=/opt/nave update=yes
+- name: download nodebrew
+  sudo: yes
+  command: wget git.io/nodebrew -P /var/tmp
 
-- name: Install node.js
-  shell: /opt/nave/bin/nave usemain latest
+- name: install nodebrew
+  command: perl /var/tmp/nodebrew setup
 
-- name: Install global node modules
-  shell: npm install --global istanbul mocha pm2
+- name: install node.js latest
+  ignore_errors: True
+  shell: bash -lc "nodebrew install-binary latest"
 
-- name: Create root directory
-  file: path=/var/lib/node state=directory
+- name: use node.js version
+  shell: bash -lc "nodebrew use latest"
+
+- name: install chromedriver
+  shell: bash -lc "npm install -g chromedriver"
+
+

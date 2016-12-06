@@ -4,3 +4,8 @@
 - name: Install python2.7
   raw: sudo apt-get -qq install python2.7 python-apt
 
+- name: Install Git
+  apt: pkg={{item}} state=latest
+  with_items:
+    - git
+

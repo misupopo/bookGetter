@@ -1,6 +1,6 @@
 - hosts: manager
-  become: yes
+  become: no
+  become_user: ubuntu
   roles:
     - common
     - node
-    - vagrant
