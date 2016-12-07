@@ -3,7 +3,7 @@
   raw: sudo wget -q -O - "https://dl-ssl.google.com/linux/linux_signing_key.pub" | sudo apt-key add -
 
 - name: add repository
-  raw: sudo echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list
+  raw: sudo sh -c "echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list"
 
 - name: install xvfb firefox
   apt: pkg={{item}} state=latest
