@@ -1,3 +1,0 @@
-
-- name: Copy .bash_profile file
-  copy: src=bash_profile dest=/home/ubuntu/.bash_profile

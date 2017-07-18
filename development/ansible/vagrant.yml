@@ -1,6 +1,0 @@
-- hosts: manager
-  become: no
-  become_user: ubuntu
-  roles:
-    - common
-    - node
